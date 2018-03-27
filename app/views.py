@@ -19,9 +19,6 @@ def api_request():
 
 @app.route('/api/date',methods={'POST','GET'})
 def api_date():
-    # request.form.get('key',type=str,default=None) # get form data
-    # request.args.get('key') # get http-get data
-    # request.value.get('key') # get all the pramaters include get and post
     import time    
     return str(time.ctime())
 
