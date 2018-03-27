@@ -10,8 +10,18 @@ def send_file(path):
     return send_from_directory('./file',path)
 
 @app.route('/api/request',methods={'POST','GET'})
-def api_get():
+def api_request():
     # request.form.get('key',type=str,default=None) # get form data
     # request.args.get('key') # get http-get data
     # request.value.get('key') # get all the pramaters include get and post
     return str(request.values)
+
+
+@app.route('/api/date',methods={'POST','GET'})
+def api_date():
+    # request.form.get('key',type=str,default=None) # get form data
+    # request.args.get('key') # get http-get data
+    # request.value.get('key') # get all the pramaters include get and post
+    import time    
+    return str(time.ctime())
+
