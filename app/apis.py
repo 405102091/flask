@@ -12,25 +12,20 @@ def api_request():
 @app.route('/api/date',methods={'POST','GET'})
 def api_date():
     import time
-    return str(time.ctime())
+    return allow_ajax(jsonify(serverdate=str(time.ctime())))
 
 @app.route('/api/randint',methods={'POST','GET'})
 def api_randint():
     import random    
-    parmax=request.values.get('MAX')
-    randmax=100 if parmax==None else int(parmax)
-    parmin=request.values.get('MIN')
-    randmin=0 if parmin==None else int(parmin)
-    parlen=request.values.get('LEN')
-    randlen=1 if parlen==None else int(parlen)
-    if randlen==1:
-        return allow_ajax(jsonify(randint=random.randint(randmin,randmax)))
-    elif randlen>1:
-        return allow_ajax(jsonify(randint=[random.randint(randmin,randmax) for i in range(randlen)]))
+    print(request.values)
+    randmax=request.values.get('MAX',100,type=int)
+    randmin=request.values.get('MIN',0,type=int)
+    randlen=request.values.get('LEN',1,type=int)
+    return allow_ajax(jsonify(randint=[random.randint(randmin,randmax) for i in range(randlen)]))
     
 def allow_ajax(res):
     response=make_response(res)
-    response.headers['Access-Control-Allow-Origin'] = '*' 
+    response.headers['Access-Control-Allow-Origin'] = '*'  
+    response.headers['Access-Control-Allow-Methods'] = 'POST'  
+    response.headers['Access-Control-Allow-Headers'] = 'x-requested-with,content-type' 
     return response 
-    #response.headers['Access-Control-Allow-Methods'] = 'POST'  
-    #response.headers['Access-Control-Allow-Headers'] = 'x-requested-with,content-type' 
