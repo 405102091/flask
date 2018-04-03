@@ -1,3 +1,4 @@
+#coding:utf-8
 from app import app,limiter
 from flask import request,render_template,send_from_directory,jsonify,make_response
 
