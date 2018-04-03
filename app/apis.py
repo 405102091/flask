@@ -1,5 +1,6 @@
-from app import app
+from app import app,limiter
 from flask import request,render_template,send_from_directory,jsonify,make_response
+
 
 @app.route('/api/request',methods={'POST','GET'})
 def api_request():
@@ -8,6 +9,11 @@ def api_request():
     # request.value.get('key') # get all the pramaters include get and post
     return str(request.values)
 
+@app.route('/api/slow/date',methods={'POST','GET'})
+@limiter.limit('10 per minute')
+def api_slow_date():
+    import time
+    return allow_ajax(jsonify(serverdate=str(time.ctime())))
 
 @app.route('/api/date',methods={'POST','GET'})
 def api_date():
